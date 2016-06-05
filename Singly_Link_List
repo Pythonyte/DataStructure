@@ -1,0 +1,164 @@
+#Involves Basic operations over SLL
+#Creation
+#Insertion
+#deletion
+
+# Functions on Node of a singly Linked List:
+class Node:
+    def __init__(self):
+        self.data=None
+        self.next=None
+
+    def setData(self,data):
+        self.data=data
+
+    def getData(self):
+        return self.data
+
+    def setNext(self,next):
+        self.next=next
+        #here next is another Node and self.next is pointer for pointer of prev node
+
+    def getNext(self):
+        return self.next
+        # return the next Node
+
+    def hasNext(self):
+        return self.next != None
+
+
+class SLinkedList:
+    def __init__(self):
+        self.head=None
+        self.length=0
+
+    def Print_List(self):
+        current = self.head
+        while current:
+            print(current.getData(),'-> ',end='')
+            current=current.getNext()
+        print('NULL')
+
+    def getSize(self):
+        return self.length
+
+
+    def insertAtBeginning(self,data):
+        newNode=Node()
+        newNode.setData(data)
+        if not self.head:
+            self.head=newNode
+        else:
+            newNode.setNext(self.head)  # by this next node of newNode is self.head
+            self.head=newNode
+        self.length+=1
+
+    def insertAtEnd(self,data):
+        newNode=Node()
+        newNode.setData(data)
+        if not self.head:
+            self.head=newNode
+        else:
+            current=self.head
+            while current.getNext():
+                current=current.getNext()
+            current.setNext(newNode)
+        self.length+=1
+
+    def insertAtPosition(self,data,position):
+        newNode=Node()
+        newNode.setData(data)
+        if not self.head :
+            self.head=newNode
+        else:
+            current=self.head
+            counter = 1
+            while counter < position-1:
+                current=current.getNext()
+                counter+=1
+            #Till that WE reached at position-1
+            newNode.setNext(current.getNext()) # setting next of new node is position'th node
+            current.setNext(newNode) # # setting new node as next node of current node
+            self.length+=1 # after adding node increasing size of linkedlist by 1
+
+    def deleteFromBeginning(self):
+        if not self.head:
+            print('LinkList is empty. No element to delete.')
+        elif self.length == 1:
+            self.head=None
+            self.length=0
+        else:
+            self.head=self.head.getNext()
+            self.length-=1
+
+    def deleteFromEnd(self):
+        if not self.head:
+            print('LinkList is empty. No element to delete.')
+        elif self.length == 1:
+            self.head=None
+            self.length=0
+        else:
+            current = self.head
+            while current.getNext().getNext():
+                current=current.getNext()
+
+            current.setNext(None)
+            self.length-=1
+
+    def deletefromPosition(self,position):
+        if position > self.length:
+            return print("Not Possible\nposition is:",position,"\nlinklist size is:",self.length)
+        if not self.head:
+            print('LinkList is empty. No element to delete.')
+        elif self.length == 1:
+            self.head=None
+            self.length=0
+        else:
+            counter=1
+            current = self.head
+            if position == 1:
+                self.head = current.getNext()
+            else:
+                while counter < position-1:
+                    current=current.getNext()
+                    counter+=1
+                current.setNext(current.getNext().getNext())
+            self.length-=1
+
+    def deletefromPosition2(self,position):
+        counter=0
+        if position > self.length or position < 0:
+            return print("Not Possible\nposition is:",position,"\nlinklist size is:",self.length)
+        if not self.head:
+            print('LinkList is empty. No element to delete.')
+        elif position == 1:
+            self.head = self.head.getNext()
+        else:
+            currentNode=self.head
+            prevNode=self.head
+            while currentNode.next != None or counter < position:
+                counter+=1
+                if counter == position:
+                    prevNode.next = currentNode.next
+                    self.length-=1
+                else:
+                    prevNode=currentNode
+                    currentNode=currentNode.next
+
+########################################################################################
+
+sll=SLinkedList()
+sll.insertAtBeginning(5)
+sll.insertAtBeginning(6)
+sll.insertAtEnd(7)
+sll.insertAtBeginning(5)
+sll.insertAtPosition(20,3)
+#sll.deleteFromBeginning()
+#sll.deleteFromEnd()
+#sll.deleteFromBeginning()
+sll.Print_List()
+#sll.deletefromPosition(1)
+sll.deletefromPosition2(1)
+sll.Print_List()
+print('\n',sll.getSize())
+
