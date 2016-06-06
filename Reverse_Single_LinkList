@@ -1,0 +1,89 @@
+# Functions on Node of a singly Linked List:
+import math
+class Node:
+    def __init__(self):
+        self.data=None
+        self.next=None
+
+    def setData(self,data):
+        self.data=data
+
+    def getData(self):
+        return self.data
+
+    def setNext(self,next):
+        self.next=next
+        #here next is another Node and self.next is pointer for pointer of prev node
+
+    def getNext(self):
+        return self.next
+        # return the next Node
+
+    def hasNext(self):
+        return self.next != None
+
+
+class SLinkedList:
+    def __init__(self):
+        self.head=None
+        self.length=0
+
+    
+    def reverseLinkedList_way1(self):
+        if not self.head:
+            print('LinkList is empty.')
+        elif self.length == 1:
+            return True
+        else:
+            NewLL=SLinkedList()
+            current= self.head
+            while current:
+                NewLL.insertAtBeginning(current.getData())
+                current=current.getNext()
+            self.head=NewLL.head
+
+    # taking 3 variables ( prev current next )
+    # iterating over the variables
+    def reverseLinkedList_way2(self):
+        current = self.head
+        previous = None
+        while current:
+            next = current.getNext()
+            current.setNext(previous)   # None, first time round.
+            previous = current        # Used in the next iteration.
+            current = next            # Move to next node.
+
+        self.head = previous
+
+    def reverse_recursion(self,item,tail=None):
+        next=item.getNext()
+        item.setNext(tail)
+        if not next:
+            self.head=item
+        else:
+            return self.reverse_recursion(next,item)
+
+
+    def print_LL_reversed(self,current):
+        if current:
+            self.print_LL_reversed(current.getNext())
+            print(current.getData(),'-> ',end='')
+
+    def reverse_till_position(self,position):
+        if position > self.length or position < 0:
+            return print('position given is not valid.')
+        else:
+            current = self.head
+            previous = None
+            i=1
+            while i <= position:
+                next=current.getNext()
+                current.setNext(previous)
+                previous=current
+                current=next
+                i+=1
+            self.head.setNext(next)
+            self.head=previous
+            return current
+
+    
