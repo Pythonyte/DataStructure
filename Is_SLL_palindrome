@@ -1,0 +1,74 @@
+# Functions on Node of a singly Linked List:
+import math
+class Node:
+    def __init__(self):
+        self.data=None
+        self.next=None
+
+    def setData(self,data):
+        self.data=data
+
+    def getData(self):
+        return self.data
+
+    def setNext(self,next):
+        self.next=next
+        #here next is another Node and self.next is pointer for pointer of prev node
+
+    def getNext(self):
+        return self.next
+        # return the next Node
+
+    def hasNext(self):
+        return self.next != None
+        
+        
+  
+class SLinkedList:
+    def __init__(self):
+        self.head=None
+        self.length=0
+
+    def Print_List(self):
+        current = self.head
+        while current:
+            print(current.getData(),'-> ',end='')
+            current=current.getNext()
+        print('NULL')
+        
+        
+    def reverse_till_position(self,position):
+        if position > self.length or position < 0:
+            return print('position given is not valid.')
+        else:
+            current = self.head
+            previous = None
+            i=1
+            while i <= position:
+                next=current.getNext()
+                current.setNext(previous)
+                previous=current
+                current=next
+                i+=1
+            self.head.setNext(next)
+            self.head=previous
+            return current
+
+    def Check_LL_palandrome(self):
+        if(self.length == 1):
+            return True
+        Midpointer=self.reverse_till_position(math.floor(self.length/2))
+        if self.length % 2 != 0:
+            Midpointer = Midpointer.getNext()
+        #print('Midpointer',Midpointer.getData())
+        current=self.head
+        while Midpointer:
+            #print('Midponter is',Midpointer.getData(),'current is',current.getData())
+            if Midpointer.getData() != current.getData():
+                return False
+            else:
+                Midpointer=Midpointer.getNext()
+                current=current.getNext()
+        self.reverse_till_position(math.floor(self.length/2))
+        return True
+
