@@ -164,3 +164,22 @@ class DLinkList:
             prevNode.setNext(nextNode)
             nextNode.setPrev(prevNode)
             self.length-=1
+
+    # Check that given link list is palindrom or not: 
+    #complexity O(N/2)
+    def IsPalindrome(self):
+        if not self.head:
+            return print('List is Empty')
+        elif self.head == self.tail:
+            return True
+        else:
+            TempHead=self.head
+            TempTail=self.tail
+            while TempHead != TempTail and TempTail.getNext() != TempHead:
+                print('TempHead-',TempHead.getData(),'TempTail-',TempTail.getData())
+                if TempHead.getData() != TempTail.getData():
+                    return False
+                else:
+                    TempHead = TempHead.getNext()
+                    TempTail = TempTail.getPrev()
+            return True
