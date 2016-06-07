@@ -1,0 +1,166 @@
+class Node:
+    def __init__(self,data=None):
+        self.data=data
+        self.prev=None
+        self.next=None
+
+    def setData(self,data):
+        self.data=data
+
+    def setNext(self,next):
+        self.next=next
+
+    def setPrev(self,prev):
+        self.prev=prev
+
+    def getData(self):
+        return self.data
+
+    def getNext(self):
+        return self.next
+
+    def getPrev(self):
+        return self.prev
+
+    def HasNext(self):
+        return self.next is not None
+
+    def HasPrev(self):
+        return self.prev is not None
+
+
+class DLinkList:
+
+    def __init__(self):
+        self.head=None
+        self.tail=None
+        self.length=0
+
+    #Complexity => O(1)
+    def clearList(self):
+        self.head=None
+        self.tail=None
+        self.length=0
+
+    #Complexity => O(1)
+    def Assign_First_Node(self,node):
+        self.head=node
+        self.tail=node
+        self.length=1
+
+    #Complexity => O(N)
+    def PrintList(self):
+        if not self.head:
+            return print('DLL is empty')
+        current=self.head
+        while current:
+            print(current.getData(),'<-> ',end='')
+            current=current.getNext()
+        print('NULL')
+
+    #Complexity => O(N)
+    def PrintReverseList(self):
+        current=self.tail
+        while current:
+            print(current.getData(),'<-> ',end='')
+            current=current.getPrev()
+        print('NULL')
+
+    #Complexity => O(1)
+    def insertAtBegin(self,data):
+        node=Node(data)
+        if not self.head:
+            self.Assign_First_Node(node)
+        else:
+            firstNode=self.head
+            node.setNext(firstNode)
+            firstNode.setPrev(node)
+            self.head=node
+            self.length+=1
+
+    #Complexity => O(1)
+    def insertAtEnd(self,data):
+        node=Node(data)
+        if not self.head:
+            self.Assign_First_Node(node)
+        else:
+            lastNode=self.tail
+            lastNode.setNext(node)
+            node.setPrev(lastNode)
+            self.tail=node
+            self.length+=1
+
+    #Complexity => O(N-position)
+    def insertAtPosition(self,data,position):
+        node=Node(data)
+        if position < 0 or position > self.length:
+            return print('position is not valid.')
+        elif not self.head:
+            self.Assign_First_Node(node)
+        elif position == 1:
+            self.insertAtBegin(data)
+        else:
+            # we can add one more condition:
+            # check from where position is near by from head or form tail :
+            # then go to the loop accordingly
+            current=self.head
+            i=1
+            while i < position-1:
+                current=current.getNext()
+                i+=1
+            next=current.getNext()
+            node.setPrev(current)
+            node.setNext(next)
+            current.setNext(node)
+            next.setPrev(node)
+            self.length+=1
+
+    #Complexity => O(1)
+    def deleteFromBegin(self):
+       if not self.head:
+            return print('DLL is empty')
+       current=self.head
+       if current.getNext():
+           next=current.getNext()
+           next.setPrev(None)
+           current.setNext(None)
+           self.head=next
+           self.length-=1
+       else: #list has only one element
+           self.clearList()
+
+    #Complexity => O(1)
+    def deleteFromEnd(self):
+        if not self.head:
+            return print('DLL is empty')
+        last=self.tail
+        if last.getPrev():
+            scndLast=last.getPrev()
+            scndLast.setNext(None)
+            last.setPrev(None)
+            self.tail=scndLast
+            self.length-=1
+        else:  #list has only one element
+           self.clearList()
+
+    #Complexity => O(N-position)
+    def deleteAtPosition(self,position):
+        if position < 0 or position > self.length:
+            return print('position is not valid.')
+        elif not self.head:
+            return print('DLL is empty')
+        elif position == 1:
+            self.deleteFromBegin()
+        elif position == self.length:
+            self.deleteFromEnd()
+        else:
+            node=self.head
+            i=1
+            while i < position:
+                node= node.getNext()
+                i+=1
+            nextNode=node.getNext()
+            prevNode=node.getPrev()
+            prevNode.setNext(nextNode)
+            nextNode.setPrev(prevNode)
+            self.length-=1
