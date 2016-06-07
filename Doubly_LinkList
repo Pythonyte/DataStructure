@@ -166,7 +166,7 @@ class DLinkList:
             self.length-=1
 
     # Check that given link list is palindrom or not: 
-    #complexity O(N/2)
+    #complexity ==> O(N/2) 
     def IsPalindrome(self):
         if not self.head:
             return print('List is Empty')
