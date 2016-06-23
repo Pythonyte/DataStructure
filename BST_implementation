@@ -1,0 +1,52 @@
+import math
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+
+    def setData(self,data):
+        self.data=data
+
+    def getData(self):
+        return self.data
+
+    def getLeft(self):
+        return self.left
+        # return the next Node
+
+    def getRight(self):
+        return self.right
+
+    def haveChild(self):
+        return self.left != None or self.right != None
+
+
+class BST:
+    def __init__(self):
+        self.root=None
+        self.size=0
+
+    def insert_node(self,root,data):
+        if self.root is None:
+            self.root=Node(data)
+        elif data <= root.data:
+            if root.left is None:
+                root.left=Node(data)
+            else:
+                self.insert_node(root.left,data)
+        else:
+            if root.right is None:
+                root.right=Node(data)
+            else:
+                self.insert_node(root.right,data)
+                
+                
+                
+                
+    def print_tree_InOrder(self,root):
+        if root.left:
+            self.print_tree_InOrder(root.left)
+        print(root.data)
+        if root.right:
+            self.print_tree_InOrder(root.right)
