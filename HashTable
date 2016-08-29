@@ -1,0 +1,72 @@
+class key_value_pair:
+    def __init__(self,key=None,value=None):
+        self.key=key
+        self.value=value
+
+    def __str__(self):
+        if self.value: return str(self.key)+":"+str(self.value)
+        else: return str(self.key)
+
+class HashTable:
+
+    __tablelength=10
+
+    def __init__(self):
+        self.__hashtable=[[] for i in range(self.__tablelength)]
+
+
+    @classmethod
+    def hashfunction(cls,key):
+        if type(key) == int:
+            return key%cls.__tablelength
+        elif type(key) == str:
+            total=0
+            for char in key:
+                total+=ord(char)
+            return total%cls.__tablelength
+
+    def __insertOrupdate(self,pair,insertIndex):
+        update=False
+        for obj in self.__hashtable[insertIndex]:
+            if obj.key==pair.key:
+                obj.value=pair.value
+                update=True
+        if not update:
+            self.__hashtable[insertIndex].append(pair)
+
+    def insert(self,key=None,value=None):
+        pair=key_value_pair(key,value)
+        insertIndex=type(self).hashfunction(key)
+        self.__insertOrupdate(pair,insertIndex)
+
+    def show(self):
+        #print(self.__hashtable)
+        print('HashTable:')
+        for index in range(len(self.__hashtable)):
+            if self.__hashtable[index] != []:
+                for obj in self.__hashtable[index]:
+                    print(obj)
+
+    def returnKeyValues(self,htable):
+        return [obj.key for obj in htable]
+
+    def lookup_key(self,key):
+        index=type(self).hashfunction(key)
+        for obj in self.__hashtable[index]:
+            if key == obj.key:
+                print('found:',obj)
+                return
+        else:print('not Found:',key)
+
+
+    def delete_key(self,key):
+        index=type(self).hashfunction(key)
+        for obj in self.__hashtable[index]:
+            if key == obj.key:
+                self.__hashtable[index].remove(obj)
+                return
+        else:print(key,' :is not present in Table.')
+
+
+
+
